@@ -190,7 +190,7 @@
                 <input type="text" id="sous-centre" name="sous-centre" placeholder="Sous-Centre" required>
             </div>
             <div class="form-group text-center">
-                <button type="submit" class="button-link">Enregistrer</button>
+                <a href="H:/WWW/invest/africa/sites/Examens/confirmation.html" class="button-link">Enregistrer</a>
             </div>
         </form>
         <div class="message" id="confirmationMessage">Inscription réussie ! Vous avez été enregistré.</div>
@@ -214,63 +214,62 @@
             var sousCentre = document.getElementById('sous-centre').value.trim();
             var filiere = document.getElementById('filiere').value.trim();
             var dob = document.getElementById('dob').value.trim();
-        // Vérification si tous les champs sont remplis
-        if (nom === "" || prenom === "" || sexe === "" || classe === "" || matricule === "" || centre === "" || sousCentre === "" || filiere === "" || dob === "") {
-            alert("Veuillez remplir tous les champs du formulaire.");
-            return false; // Empêcher l'envoi du formulaire
+            // Vérification si tous les champs sont remplis
+            if (nom === "" || prenom === "" || sexe === "" || classe === "" || matricule === "" || centre === "" || sousCentre === "" || filiere === "" || dob === "") {
+                alert("Veuillez remplir tous les champs du formulaire.");
+                return false; // Empêcher l'envoi du formulaire
+            }
+
+            return true; // Autoriser l'envoi du formulaire si tous les champs sont remplis
         }
 
-        return true; // Autoriser l'envoi du formulaire si tous les champs sont remplis
-    }
+        // Écouter l'événement de soumission du formulaire
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêcher l'envoi par défaut
 
-    // Écouter l'événement de soumission du formulaire
-    document.getElementById('registrationForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Empêcher l'envoi par défaut
+            // Valider le formulaire avant l'envoi
+            if (validateForm()) {
+                var nom = document.getElementById('nom').value.trim();
+                var prenom = document.getElementById('prenom').value.trim();
+                var sexe = document.getElementById('sexe').value;
+                var classe = document.getElementById('classe').value;
+                var matricule = document.getElementById('matricule').value.trim();
+                var centre = document.getElementById('centre').value.trim();
+                var sousCentre = document.getElementById('sous-centre').value.trim();
+                var filiere = document.getElementById('filiere').value.trim();
+                var dob = document.getElementById('dob').value;
 
-        // Valider le formulaire avant l'envoi
-        if (validateForm()) {
-            var nom = document.getElementById('nom').value.trim();
-            var prenom = document.getElementById('prenom').value.trim();
-            var sexe = document.getElementById('sexe').value;
-            var classe = document.getElementById('classe').value;
-            var matricule = document.getElementById('matricule').value.trim();
-            var centre = document.getElementById('centre').value.trim();
-            var sousCentre = document.getElementById('sous-centre').value.trim();
-            var filiere = document.getElementById('filiere').value.trim();
-            var dob = document.getElementById('dob').value;
+                // Envoi des données au serveur
+                var formData = new FormData();
+                formData.append('nom', nom);
+                formData.append('prenom', prenom);
+                formData.append('sexe', sexe);
+                formData.append('classe', classe);
+                formData.append('matricule', matricule);
+                formData.append('centre', centre);
+                formData.append('sous-centre', sousCentre);
+                formData.append('filiere', filiere);
+                formData.append('dob', dob);
 
-            // Envoi des données au serveur
-            var formData = new FormData();
-            formData.append('nom', nom);
-            formData.append('prenom', prenom);
-            formData.append('sexe', sexe);
-            formData.append('classe', classe);
-            formData.append('matricule', matricule);
-            formData.append('centre', centre);
-            formData.append('sous-centre', sousCentre);
-            formData.append('filiere', filiere);
-            formData.append('dob', dob);
+                fetch('', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Rediriger vers la page de confirmation
+                    window.location.href = 'H:/WWW/invest/africa/sites/Examens/confirmation.html';
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
 
-            fetch('', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Cacher le formulaire et afficher le message de confirmation
-                document.getElementById('registrationForm').style.display = 'none';
-                document.getElementById('confirmationMessage').style.display = 'block';
-            })
-            .catch(error => console.error('Error:', error));
-        }
-    });
-
-    // Fonctionnalité du bouton WhatsApp
-    document.getElementById('whatsapp-button').addEventListener('click', function() {
-        var whatsappNumber = '237671700846';
-        var url = 'https://wa.me/' + whatsappNumber;
-        window.open(url, '_blank');
-    });
-</script>
+        // Fonctionnalité du bouton WhatsApp
+        document.getElementById('whatsapp-button').addEventListener('click', function() {
+            var whatsappNumber = '237671700846';
+            var url = 'https://wa.me/' + whatsappNumber;
+            window.open(url, '_blank');
+        });
+    </script>
 </body>
 </html>
